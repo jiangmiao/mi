@@ -36,6 +36,6 @@ func BytesRef(v interface{}) []byte {
 	}))
 }
 
-func FromBytes(v interface{}, src []byte) {
+func BytesCopy(v interface{}, src []byte) {
 	copy(BytesRef(v), src)
 }
