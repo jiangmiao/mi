@@ -1,6 +1,8 @@
 package mi
 
 import (
+	"bytes"
+	"encoding/binary"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -17,9 +19,14 @@ func Test(tt *testing.T) {
 	eq := att.Equal
 	_ = ok
 
-	eq(Start([2]int64{1, 2}), Start([]int64{1, 2}))
-	eq(Start([2]int64{1, 2}).Hex().String(), "01000000000000000200000000000000")
 	var foo = Foo{1, 2}
-	eq(Start(foo).Hex().String(), "01000000000000000200000000000000")
-	eq(Start(&foo).Hex().String(), "01000000000000000200000000000000")
+
+	var out = new(bytes.Buffer)
+	binary.Write(out, binary.LittleEndian, []int64{1, 2})
+	var expected = Bytes(out.Bytes())
+
+	eq(Start([2]int64{1, 2}), Start([]int64{1, 2}))
+	eq(Start([2]int64{1, 2}), expected)
+	eq(Start(foo), expected)
+	eq(Start(&foo), expected)
 }
