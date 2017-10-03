@@ -13,6 +13,13 @@ type Foo struct {
 	B int64
 }
 
+type Bar struct {
+}
+
+func (b Bar) Bytes() Bytes {
+	return Bytes("hello")
+}
+
 func Test(tt *testing.T) {
 	att := assert.New(tt)
 	ok := att.NoError
@@ -29,4 +36,5 @@ func Test(tt *testing.T) {
 	eq(Start([2]int64{1, 2}), expected)
 	eq(Start(foo), expected)
 	eq(Start(&foo), expected)
+	eq(Start(Bar{}), Bytes("hello"))
 }

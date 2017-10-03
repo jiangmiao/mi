@@ -7,14 +7,17 @@ import (
 
 type JSONBytes []byte
 
-func (v JSONBytes) Beauty() []byte {
+func (v JSONBytes) Beauty() Bytes {
 	var out = new(bytes.Buffer)
 	json.Indent(out, v, "", "\t")
 	return out.Bytes()
 }
 
 func JSON(v interface{}) JSONBytes {
-	r, _ := json.Marshal(v)
+	r, err := json.Marshal(v)
+	if err != nil {
+		panic(err)
+	}
 	return r
 }
 
