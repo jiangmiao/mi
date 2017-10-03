@@ -20,7 +20,7 @@ func (b Bar) Bytes() Bytes {
 	return Bytes("hello")
 }
 
-func Test(tt *testing.T) {
+func TestBytes(tt *testing.T) {
 	att := assert.New(tt)
 	ok := att.NoError
 	eq := att.Equal

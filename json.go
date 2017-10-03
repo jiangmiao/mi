@@ -3,6 +3,8 @@ package mi
 import (
 	"bytes"
 	"encoding/json"
+
+	jsonitor "github.com/json-iterator/go"
 )
 
 type JSONBytes []byte
@@ -14,13 +16,13 @@ func (v JSONBytes) Beauty() Bytes {
 }
 
 func JSON(v interface{}) JSONBytes {
-	r, err := json.Marshal(v)
+	r, err := jsonitor.Marshal(v)
 	if err != nil {
 		panic(err)
 	}
 	return r
 }
 
-func JSONBeauty(v interface{}) []byte {
+func JSONBeauty(v interface{}) Bytes {
 	return JSON(v).Beauty()
 }
