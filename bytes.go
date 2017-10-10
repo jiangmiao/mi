@@ -17,10 +17,10 @@ type Byteser interface {
 
 type Bytes []byte
 
-func StartLE(v interface{}) Bytes {
-	return Start(v).Reverse()
+func BLE(v interface{}) Bytes {
+	return B(v).Reverse()
 }
-func Start(v interface{}) Bytes {
+func B(v interface{}) Bytes {
 	switch r := v.(type) {
 	case Byteser:
 		return r.Bytes()
@@ -96,6 +96,14 @@ func (b Bytes) Len() int {
 }
 func (b Bytes) Reader() io.Reader {
 	return bytes.NewBuffer(b)
+}
+func (b Bytes) Concat(vs ...interface{}) Bytes {
+	var r Bytes
+	r = b
+	for _, v := range vs {
+		r = append(r, B(v)...)
+	}
+	return r
 }
 
 // Crypto

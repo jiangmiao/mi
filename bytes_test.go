@@ -30,11 +30,12 @@ func TestBytes(tt *testing.T) {
 
 	var out = new(bytes.Buffer)
 	binary.Write(out, binary.LittleEndian, []int64{1, 2})
-	var expected = Bytes(out.Bytes())
+	var expected = B(out.Bytes())
 
-	eq(Start([2]int64{1, 2}), Start([]int64{1, 2}))
-	eq(Start([2]int64{1, 2}), expected)
-	eq(Start(foo), expected)
-	eq(Start(&foo), expected)
-	eq(Start(Bar{}), Bytes("hello"))
+	eq(B([2]int64{1, 2}), B([]int64{1, 2}))
+	eq(B([2]int64{1, 2}), expected)
+	eq(B(foo), expected)
+	eq(B(&foo), expected)
+	eq(B(Bar{}), B("hello"))
+	eq(B("abc"), B("a").Concat("b", "c"))
 }
