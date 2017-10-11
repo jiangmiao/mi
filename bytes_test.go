@@ -38,4 +38,11 @@ func TestBytes(tt *testing.T) {
 	eq(B(&foo), expected)
 	eq(B(Bar{}), B("hello"))
 	eq(B("abc"), B("a").Concat("b", "c"))
+
+	eq(B("f_o_o"), B("FOO").Underscorize())
+	eq(B("fOO"), B("f_o_o").Camelize())
+	eq(B("fOO_"), B("f_o_o_").Camelize())
+	eq(B("FOO"), B("F_o_o").Camelize())
+	eq(B("FOO"), B("f_o_o").Camelize(true))
+
 }

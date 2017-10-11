@@ -126,3 +126,69 @@ func (b Bytes) Hex() Bytes {
 	hex.Encode(r, b)
 	return r
 }
+
+func (b Bytes) Underscorize() Bytes {
+	var n = len(b)
+	if n == 0 {
+		return Bytes("")
+	}
+	r := make([]byte, n*2)
+	var i, ir int
+	for i < n {
+		if b[i] >= 'A' && b[i] <= 'Z' {
+			if i > 0 {
+				r[ir] = '_'
+				ir++
+			}
+			r[ir] = b[i] - 'A' + 'a'
+		} else {
+			r[ir] = b[i]
+		}
+		i++
+		ir++
+	}
+	return r[:ir]
+}
+
+func (b Bytes) Camelize(args ...interface{}) Bytes {
+	var n = len(b)
+	if n == 0 {
+		return Bytes("")
+	}
+	var capitalize bool
+	if len(args) == 0 {
+		capitalize = false
+	} else {
+		capitalize = args[0].(bool)
+	}
+
+	var r = make([]byte, n)
+	var i, ir int
+	if capitalize {
+		if 'a' <= b[i] && b[i] <= 'z' {
+			r[ir] = b[i] - 'a' + 'A'
+			i++
+			ir++
+		}
+	}
+	for i < n-1 {
+		if b[i] == '_' {
+			i++
+			if 'a' <= b[i] && b[i] <= 'z' {
+				r[ir] = b[i] - 'a' + 'A'
+			} else {
+				r[ir] = b[i]
+			}
+		} else {
+			r[ir] = b[i]
+		}
+		i++
+		ir++
+	}
+	if i < n {
+		r[ir] = b[i]
+		i++
+		ir++
+	}
+	return r[:ir]
+}
